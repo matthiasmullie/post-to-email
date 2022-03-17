@@ -1,0 +1,19 @@
+{
+    "name": "matthiasmullie/post-to-email",
+    "type": "project",
+    "description": "Post to email",
+    "keywords": ["post", "email"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matthias Mullie",
+            "homepage": "https://www.mullie.eu",
+            "email": "post-to-email@mullie.eu",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "symfony/mailer": "^6.0"
+    }
+}
