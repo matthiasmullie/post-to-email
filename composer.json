@@ -2,7 +2,7 @@
     "name": "matthiasmullie/post-to-email",
     "type": "project",
     "description": "Post to email",
-    "keywords": ["post", "email"],
+    "keywords": ["post", "email", "contact form", "static website"],
     "license": "MIT",
     "authors": [
         {
