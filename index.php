@@ -7,37 +7,48 @@ use Symfony\Component\Mime\Email;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$allowedOrigin = getenv('ALLOW_ORIGIN') ?: '*';
-$dsn = getenv('SMTP_DSN') ?: $_GET['SMTP_DSN'] ?? '';
-$subject = getenv('SUBJECT') ?: $_GET['SUBJECT'] ?? 'Form to email';
-$sender = Address::create(getenv('SENDER') ?: $_GET['SENDER'] ?? '');
-$recipient = Address::create(getenv('RECIPIENT') ?: $_GET['RECIPIENT'] ?? '');
-$replyTo = Address::create(getenv('REPLY_TO') ?: $_GET['REPLY_TO'] ?? $sender);
+$config = [
+    'DSN' => getenv('DSN') ?: $_POST['DSN'] ?? $_GET['DSN'] ?? '',
+    'SENDER' => getenv('SENDER') ?: $_POST['SENDER'] ?? $_GET['SENDER'] ?? '',
+    'RECIPIENT' => getenv('RECIPIENT') ?: $_POST['RECIPIENT'] ?? $_GET['RECIPIENT'] ?? '',
+    'REPLY_TO' => getenv('REPLY_TO') ?: $_POST['REPLY_TO'] ?? $_GET['REPLY_TO'] ?? '',
+    'SUBJECT' => getenv('SUBJECT') ?: $_POST['SUBJECT'] ?? $_GET['SUBJECT'] ?? 'Form to email',
+    'REDIRECT' => getenv('REDIRECT') ?: $_POST['REDIRECT'] ?? $_GET['REDIRECT'] ?? $_SERVER['HTTP_REFERER'] ?? '',
+    'ALLOW_ORIGIN' => getenv('ALLOW_ORIGIN') ?: '*',
+];
 
-header("Access-Control-Allow-Origin: {$allowedOrigin}");
+header("Access-Control-Allow-Origin: {$config['ALLOW_ORIGIN']}");
 
-if (!$_POST) {
-    return;
+$required = ['DSN', 'SENDER', 'RECIPIENT'];
+foreach ($required as $key) {
+    if (!$config[$key]) {
+        http_response_code(400);
+        exit("Missing config for '{$key}'");
+    }
 }
 
-$plain = implode("\n\n", array_map(static function ($key) {
-    $text = is_array($_POST[$key]) ? implode(', ', $_POST[$key]) : $_POST[$key];
-    return "{$key}: {$text}";
-}, array_keys($_POST)));
-$html = implode('', array_map(static function ($key) {
-    $text = is_array($_POST[$key]) ? '<ul><li>' . implode('</li><li>', $_POST[$key]) . '</li>' : $_POST[$key];
-    $text = str_replace("\n", '<br>', $text);
-    return "<p><strong>{$key}</strong><br>{$text}</p>";
-}, array_keys($_POST)));
+if ($config['REDIRECT']) {
+    header("Location: {$config['REDIRECT']}", true, 302);
+}
+
+$data = array_diff_key($_POST, $config);
+
+ob_start();
+include __DIR__.'/templates/plain.php';
+$plain = ob_get_clean();
+
+ob_start();
+include __DIR__.'/templates/html.php';
+$html = ob_get_clean();
 
 $email = (new Email())
-    ->from($sender)
-    ->to($recipient)
-    ->replyTo($replyTo)
-    ->subject($subject)
+    ->from(Address::create($config['SENDER']))
+    ->to(Address::create($config['RECIPIENT']))
+    ->replyTo(Address::create($config['REPLY_TO'] ?: $config['SENDER']))
+    ->subject($config['SUBJECT'])
     ->text($plain)
     ->html($html);
 
-$transport = Transport::fromDsn($dsn);
+$transport = Transport::fromDsn($config['DSN']);
 $mailer = new Mailer($transport);
 $mailer->send($email);
