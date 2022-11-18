@@ -1,6 +1,6 @@
-.idea
-/.gitignore
+/.idea
 /vendor
+/.gitignore
+/Dockerfile
 /LICENSE
 /README.md
-/Dockerfile
