@@ -28,10 +28,49 @@ foreach ($required as $key) {
 }
 
 if ($config['REDIRECT']) {
+    if (!filter_var($config['REDIRECT'], FILTER_VALIDATE_URL)) {
+        http_response_code(400);
+        exit("REDIRECT '{$config['REDIRECT']}' is not a valid URL");
+    }
+
     header("Location: {$config['REDIRECT']}", true, 302);
 }
 
+try {
+    $transport = Transport::fromDsn($config['DSN']);
+} catch (Exception $e) {
+    http_response_code(400);
+    exit("DSN '{$config['DSN']}' is not a valid/supported DSN");
+}
+
+try {
+    $sender = Address::create($config['SENDER']);
+} catch (Exception $e) {
+    http_response_code(400);
+    exit("SENDER '{$config['SENDER']}' is not a valid/supported address");
+}
+
+try {
+    $recipient = Address::create($config['RECIPIENT']);
+} catch (Exception $e) {
+    http_response_code(400);
+    exit("RECIPIENT '{$config['RECIPIENT']}' is not a valid/supported address");
+}
+
+try {
+    $replyTo = Address::create($config['REPLY_TO'] ?: $config['SENDER']);
+} catch (Exception $e) {
+    http_response_code(400);
+    exit("REPLY_TO '{$config['REPLY_TO']}' is not a valid/supported address");
+}
+
 $data = array_diff_key($_POST, $config);
+if (!$data) {
+    // requests without (non-config) body are considered tests
+    // and can be used to test or healthcheck;
+    // no email will be sent
+    exit;
+}
 
 ob_start();
 include __DIR__.'/templates/plain.php';
@@ -42,13 +81,12 @@ include __DIR__.'/templates/html.php';
 $html = ob_get_clean();
 
 $email = (new Email())
-    ->from(Address::create($config['SENDER']))
-    ->to(Address::create($config['RECIPIENT']))
-    ->replyTo(Address::create($config['REPLY_TO'] ?: $config['SENDER']))
+    ->from($sender)
+    ->to($recipient)
+    ->replyTo($replyTo)
     ->subject($config['SUBJECT'])
     ->text($plain)
     ->html($html);
 
-$transport = Transport::fromDsn($config['DSN']);
 $mailer = new Mailer($transport);
 $mailer->send($email);
