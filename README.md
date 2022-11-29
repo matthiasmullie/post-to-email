@@ -46,7 +46,7 @@ services:
     ports:
       - '8080:80'
     healthcheck:
-      test: 'curl --fail http://localhost:80/test/?SENDER=test@example.com'
+      test: 'curl --fail http://localhost:80/?SENDER=test@example.com'
       interval: 1m
       timeout: 10s
       retries: 3
