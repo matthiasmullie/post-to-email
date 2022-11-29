@@ -24,7 +24,7 @@ Note: given the minimal resource requirements for this project, you could also c
 
 ```sh
 docker run -d \
-  --name=post-to-email
+  --name=post-to-email \
   -p 8080:80 \
   -e DSN="smtp://user:pass@smtp.example.com:port" \
   -e RECIPIENT="Matthias Mullie <post-to-email@mullie.eu>" \
@@ -62,7 +62,7 @@ git clone https://github.com/matthiasmullie/post-to-email.git
 cd post-to-email
 docker build -t post-to-email .
 docker run -d \
-  --name=post-to-email
+  --name=post-to-email \
   -p 8080:80 \
   -e DSN="smtp://user:pass@smtp.example.com:port" \
   -e RECIPIENT="Matthias Mullie <post-to-email@mullie.eu>" \

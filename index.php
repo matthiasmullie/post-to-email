@@ -64,6 +64,9 @@ try {
     exit("REPLY_TO '{$config['REPLY_TO']}' is not a valid/supported address");
 }
 
+// request is valid
+echo 'OK';
+
 $data = array_diff_key($_POST, $config);
 if (!$data) {
     // requests without (non-config) body are considered tests
