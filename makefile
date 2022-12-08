@@ -12,6 +12,5 @@ test:
 	sleep 3
 	RESPONSE="$$(curl -s http://localhost:8080/?SENDER=test@example.com)";\
 	docker stop post-to-email;\
-	docker rm post-to-email;\
 	docker rmi post-to-email;\
 	test "$$RESPONSE" = "OK"
