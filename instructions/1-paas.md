@@ -16,7 +16,7 @@ The only caveat with their free plan is that services will spin down automatical
 
 From your dashboard, initiate the creation of a new Web Service by clicking the 2 buttons marked in red:
 
-![text](screenshots/render-1a.png)
+![text](assets/render-1a.png)
 
 If you've connected your [GitHub](https://github.com) or [GitLab](https://gitlab.com) account, you may choose to connect one of your own repositories (e.g. a clone of this project - or another project entirely)
 
@@ -25,7 +25,7 @@ But for simplicity, you can just move down the page and choose a "Public Git rep
 - Enter the url to this repository (`https://github.com/matthiasmullie/post-to-email`)
 - Click "Continue"
 
-![text](screenshots/render-1b.png)
+![text](assets/render-1b.png)
 
 
 ## 2. Configure your new Web Service
@@ -37,13 +37,13 @@ No shortage of input fields here, but
 - Branch, Root Directory and Environment must remain as seen on the screenshot below (`main`, *empty* and `Docker`, respectively)
 - Click "Create Web Service"
 
-![text](screenshots/render-2a.png)
+![text](assets/render-2a.png)
 
 Your new service is now being built. Render is pulling down the code and starts building the service, which may take a couple of minutes. We're not done yet, though:
 
 - Now click "Environment" in the left navigation column to move on to the next part
 
-![text](screenshots/render-2b.png)
+![text](assets/render-2b.png)
 
 
 ## 3. Set Environment Variables
@@ -52,7 +52,7 @@ In order to be able to receive emails, you'll need to configure a couple of thin
 
 - Click "Add Environment Variable"
 
-![text](screenshots/render-3a.png)
+![text](assets/render-3a.png)
 
 - Add a key called `DSN` (short for "Data Source Name")
 - As value, enter your SMTP connection string
@@ -61,7 +61,7 @@ In order to be able to receive emails, you'll need to configure a couple of thin
     - Note: If your email account is secured with multi-factor authentication, you may need to create an app password. Here's some documentation for [Gmail](https://support.google.com/accounts/answer/185833?hl=en) and [Outlook](https://support.microsoft.com/en-us/account-billing/manage-app-passwords-for-two-step-verification-d6dc8c6d-4bf7-4851-ad95-6d07799387e9)
 - Click "Add Environment Variable" to add the next one
 
-![text](screenshots/render-3b.png)
+![text](assets/render-3b.png)
 
 In this example, we'll also set the recipient so that any email sent through this arrives at your email address.
 
@@ -72,7 +72,7 @@ While it's possible to include these variables in the data your form will submit
   - This can take either `my-email@example.com` or `My Name <my-email@example.com>` format
 - Unless you want to hard-code more settings (e.g. `ALLOW_ORIGIN`, `SUBJECT`, ... - see [the full list of configuration options](../README.md#configuration)), click "Save changes"
 
-![text](screenshots/render-3c.png)
+![text](assets/render-3c.png)
 
 
 ## 4. Deployment complete
@@ -81,6 +81,6 @@ After having supplied the environment variables, your service will now be rebuil
 
 You can navigate back to your dashboard to find your service, which should end up with a "Deploy succeeded" status. Your service is now available at `https://<your-unique-project-name>.onrender.com`.
 
-![text](screenshots/render-8.png)
+![text](assets/render-8.png)
 
 Next up: [build your static form](2-form.md).
