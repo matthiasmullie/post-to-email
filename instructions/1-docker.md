@@ -22,4 +22,4 @@ This will pull the [`matthiasmullie/post-to-email` image from Docker Hub](https:
 
 While it's possible to include these variables in the data your form will submit, it makes sense to hard-code some of these in the web service, to prevent others from being able to (ab)use your service.
 
-*Note: don't forget to replace below DSN & RECIPIENT variables with your own. Check [configuration](#configuration) to see what other environment variables are available.*
+*Note: don't forget to replace below DSN & RECIPIENT variables with your own. Check [configuration](../README.md#configuration) to see what other environment variables are available.*
