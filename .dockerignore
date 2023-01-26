@@ -1,5 +1,6 @@
 /.idea
 /.github
+/instructions
 /vendor
 /.gitignore
 /Dockerfile
