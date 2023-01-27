@@ -28,7 +28,7 @@ Submit a POST request (with remaining variables - see [configuration](#configura
 Check out [this simple example to build a form that submits forms](instructions/2-form.md) to the service we deployed in the first step.
 
 
-### 3. Receive an email
+### 3. Receive email
 
 You've got this! We're done here.
 
