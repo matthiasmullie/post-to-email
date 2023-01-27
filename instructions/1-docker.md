@@ -6,6 +6,7 @@ Assuming you have access to a web server with support for Docker, you can use th
 docker run -d \
   --name=post-to-email \
   -p 8080:80 \
+  -e ALLOW_ORIGIN="*" \
   -e DSN="smtp://user:password@smtp.my-domain.com:port" \
   -e RECIPIENT="Matthias Mullie <my-email@example.com>" \
   matthiasmullie/post-to-email

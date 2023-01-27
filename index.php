@@ -8,15 +8,19 @@ use Symfony\Component\Mime\Email;
 require __DIR__ . '/vendor/autoload.php';
 
 $config = [
+    'ALLOW_ORIGIN' => getenv('ALLOW_ORIGIN'),
     'DSN' => getenv('DSN') ?: $_POST['DSN'] ?? $_GET['DSN'] ?? '',
     'SENDER' => getenv('SENDER') ?: $_POST['SENDER'] ?? $_GET['SENDER'] ?? '',
     'RECIPIENT' => getenv('RECIPIENT') ?: $_POST['RECIPIENT'] ?? $_GET['RECIPIENT'] ?? '',
     'REPLY_TO' => getenv('REPLY_TO') ?: $_POST['REPLY_TO'] ?? $_GET['REPLY_TO'] ?? '',
     'SUBJECT' => getenv('SUBJECT') ?: $_POST['SUBJECT'] ?? $_GET['SUBJECT'] ?? 'Form to email',
     'REDIRECT' => getenv('REDIRECT') ?: $_POST['REDIRECT'] ?? $_GET['REDIRECT'] ?? $_SERVER['HTTP_REFERER'] ?? '',
-    'ALLOW_ORIGIN' => getenv('ALLOW_ORIGIN') ?: '*',
 ];
 
+if ($config['ALLOW_ORIGIN'] === false) {
+    http_response_code(400);
+    exit("Missing config for 'ALLOW_ORIGIN'");
+}
 header("Access-Control-Allow-Origin: {$config['ALLOW_ORIGIN']}");
 
 $required = ['DSN', 'SENDER', 'RECIPIENT'];

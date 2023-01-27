@@ -42,10 +42,10 @@ This can be useful to lock down certain settings (e.g. `RECIPIENT` or `DSN`) wit
 
 Available params:
 
-* `DSN`: DSN string for a transport (e.g. SMTP) to send emails with
+* `ALLOW_ORIGIN` **[ENV only]**: allowed CORS domain
+* `DSN` **[ENV only]**: DSN string for a transport (e.g. SMTP) to send emails with
 * `SENDER`: sender email address
 * `RECIPIENT`: recipient email address
 * `REPLY_TO` *(optional, defaults to `SENDER`)*: reply-to email address
 * `SUBJECT` *(optional, defaults to "Form to email")*: email subject
 * `REDIRECT` *(optional, defaults to referrer)*: location to redirect back to after handing submission, or explicitly blank for no redirect
-* `ALLOW_ORIGIN` **[ENV only]** *(optional, defaults to `*`)*: allowed CORS domain

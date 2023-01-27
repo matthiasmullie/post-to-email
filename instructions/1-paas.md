@@ -54,6 +54,14 @@ In order to be able to receive emails, you'll need to configure a couple of thin
 
 ![text](assets/render-3a.png)
 
+- Add a key called `ALLOW_ORIGIN`
+- As value, enter the domain you want to accept requests from (e.g. `https://my-website.com`), or `*` to allow requests from anywhere
+  - To prevent abuse, I'd recommend locking things down to a specific domain unless there's a good reason not to
+  - Read up on [Access-Control-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin) if you want to learn more
+- Click "Add Environment Variable" to add the next one
+
+![text](assets/render-3b.png)
+
 - Add a key called `DSN` (short for "Data Source Name")
 - As value, enter your SMTP connection string
   - This usually takes the form of `smtp://<username>:<password>@<smtp-server>:<port>`
@@ -61,18 +69,18 @@ In order to be able to receive emails, you'll need to configure a couple of thin
     - Note: If your email account is secured with multi-factor authentication, you may need to create an app password. Here's some documentation for [Gmail](https://support.google.com/accounts/answer/185833?hl=en) and [Outlook](https://support.microsoft.com/en-us/account-billing/manage-app-passwords-for-two-step-verification-d6dc8c6d-4bf7-4851-ad95-6d07799387e9)
 - Click "Add Environment Variable" to add the next one
 
-![text](assets/render-3b.png)
+![text](assets/render-3c.png)
 
 In this example, we'll also set the recipient so that any email sent through this arrives at your email address.
 
-While it's possible to include these variables in the data your form will submit, it makes sense to hard-code some of these in the web service, to prevent others from being able to (ab)use your service.
+While it's possible to include this variable in the data your form will submit, it makes sense to hard-code some of these in the web service, to prevent others from being able to (ab)use your service.
 
 - Add a key called `RECIPIENT`
 - As value, enter the email address you want to receive emails at
   - This can take either `my-email@example.com` or `My Name <my-email@example.com>` format
 - Unless you want to hard-code more settings (e.g. `ALLOW_ORIGIN`, `SUBJECT`, ... - see [the full list of configuration options](../README.md#configuration)), click "Save changes"
 
-![text](assets/render-3c.png)
+![text](assets/render-3d.png)
 
 
 ## 4. Deployment complete

@@ -12,6 +12,7 @@ services:
     image: matthiasmullie/post-to-email
     container_name: post-to-email
     environment:
+      - ALLOW_ORIGIN=*
       - DSN=smtp://user:password@smtp.my-domain.com:port
       - RECIPIENT=Matthias Mullie <my-email@example.com>
     ports:

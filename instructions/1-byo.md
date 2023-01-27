@@ -15,6 +15,7 @@ docker build -t post-to-email .
 docker run -d \
   --name=post-to-email \
   -p 8080:80 \
+  -e ALLOW_ORIGIN="*" \
   -e DSN="smtp://user:password@smtp.my-domain.com:port" \
   -e RECIPIENT="Matthias Mullie <my-email@example.com>" \
   post-to-email
@@ -30,6 +31,7 @@ services:
     build: .
     container_name: post-to-email
     environment:
+      - ALLOW_ORIGIN=*
       - DSN=smtp://user:password@smtp.my-domain.com:port
       - RECIPIENT=Matthias Mullie <my-email@example.com>
     ports:
