@@ -2,7 +2,7 @@
 
 ![Image by fullvector on Freepik](instructions/assets/logo.png)
 
-## Contact forms for static websites.
+## Contact forms for static websites
 
 Turn POST requests into email, enabling contact forms etc. on otherwise static websites.
 
