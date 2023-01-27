@@ -14,6 +14,9 @@ docker run -d \
 
 This will pull the [`matthiasmullie/post-to-email` image from Docker Hub](https://hub.docker.com/r/matthiasmullie/post-to-email) and run it exposed on port 8080 with a hard-coded `DSN` and `RECIPIENT`.
 
+- For `ALLOW_ORIGIN`, enter the domain you want to accept requests from (e.g. `https://my-website.com`), or `*` to allow requests from anywhere
+  - To prevent abuse, I'd recommend locking things down to a specific domain unless there's a good reason not to
+  - Read up on [Access-Control-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin) if you want to learn more
 - `DSN` should be your SMTP connection string
   - This usually takes the form of `smtp://<username>:<password>@<smtp-server>:<port>`
   - For more information, check with your email provider. Here's a link to [Gmail](https://support.google.com/mail/answer/7126229?hl=en#zippy=%2Cstep-change-smtp-other-settings-in-your-email-client) and [Outlook](https://support.microsoft.com/en-us/office/pop-imap-and-smtp-settings-8361e398-8af4-4e97-b147-6c6c4ac95353)'s documentation
