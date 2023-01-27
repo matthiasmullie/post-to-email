@@ -37,7 +37,7 @@ if ($config['REDIRECT']) {
     header("Location: {$config['REDIRECT']}", true, 302);
 }
 
-if ($config['HONEYPOT'] && isset($_POST[$config['HONEYPOT']]) && $config['HONEYPOT'] !== '') {
+if ($config['HONEYPOT'] && isset($_POST[$config['HONEYPOT']]) && $_POST[$config['HONEYPOT']] !== '') {
     http_response_code(400);
     exit('Spam detected');
 }
