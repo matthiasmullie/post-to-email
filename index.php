@@ -13,24 +13,20 @@ $config = [
     'SENDER' => getenv('SENDER') ?: $_POST['SENDER'] ?? $_GET['SENDER'] ?? '',
     'RECIPIENT' => getenv('RECIPIENT') ?: $_POST['RECIPIENT'] ?? $_GET['RECIPIENT'] ?? '',
     'REPLY_TO' => getenv('REPLY_TO') ?: $_POST['REPLY_TO'] ?? $_GET['REPLY_TO'] ?? '',
-    'SUBJECT' => getenv('SUBJECT') ?: $_POST['SUBJECT'] ?? $_GET['SUBJECT'] ?? 'Form to email',
+    'SUBJECT' => getenv('SUBJECT') ?: $_POST['SUBJECT'] ?? $_GET['SUBJECT'] ?? 'Post to email',
     'REDIRECT' => getenv('REDIRECT') ?: $_POST['REDIRECT'] ?? $_GET['REDIRECT'] ?? $_SERVER['HTTP_REFERER'] ?? '',
     'HONEYPOT' => getenv('HONEYPOT') ?: $_POST['HONEYPOT'] ?? $_GET['HONEYPOT'] ?? '',
 ];
 
-if ($config['ALLOW_ORIGIN'] === false) {
-    http_response_code(400);
-    exit("Missing config for 'ALLOW_ORIGIN'");
-}
-header("Access-Control-Allow-Origin: {$config['ALLOW_ORIGIN']}");
-
-$required = ['DSN', 'SENDER', 'RECIPIENT'];
+$required = ['ALLOW_ORIGIN', 'DSN', 'SENDER', 'RECIPIENT'];
 foreach ($required as $key) {
     if (!$config[$key]) {
         http_response_code(400);
         exit("Missing config for '{$key}'");
     }
 }
+
+header("Access-Control-Allow-Origin: {$config['ALLOW_ORIGIN']}");
 
 if ($config['REDIRECT']) {
     if (!filter_var($config['REDIRECT'], FILTER_VALIDATE_URL)) {
