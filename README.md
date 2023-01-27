@@ -63,4 +63,4 @@ Available params:
 * `REPLY_TO` *(optional, defaults to `SENDER`)*: reply-to email address
 * `SUBJECT` *(optional, defaults to "Form to email")*: email subject
 * `REDIRECT` *(optional, defaults to referrer)*: location to redirect back to after handing submission, or explicitly blank for no redirect
-* `HONEYPOT` *(optional, defaults to none)*: Name of a form field to use as honeypot to filter out unwanted (spam) submissions
+* `HONEYPOT` *(optional, defaults to none)*: Name of a form field to use as [honeypot](instructions/2-spam-honeypot.md) to filter out [unwanted (spam) submissions](instructions/2-spam.md)
