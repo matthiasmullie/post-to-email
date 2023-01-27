@@ -73,7 +73,7 @@ try {
 // request is valid
 echo 'OK';
 
-$data = array_diff_key($_POST, $config);
+$data = array_diff_key($_POST, $config, [$config['HONEYPOT'] => true]);
 if (!$data) {
     // requests without (non-config/-honeypot) body are considered tests
     // and can be used to test or healthcheck;
