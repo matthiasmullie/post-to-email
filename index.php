@@ -15,6 +15,7 @@ $config = [
     'REPLY_TO' => getenv('REPLY_TO') ?: $_POST['REPLY_TO'] ?? $_GET['REPLY_TO'] ?? '',
     'SUBJECT' => getenv('SUBJECT') ?: $_POST['SUBJECT'] ?? $_GET['SUBJECT'] ?? 'Form to email',
     'REDIRECT' => getenv('REDIRECT') ?: $_POST['REDIRECT'] ?? $_GET['REDIRECT'] ?? $_SERVER['HTTP_REFERER'] ?? '',
+    'HONEYPOT' => getenv('HONEYPOT') ?: $_POST['HONEYPOT'] ?? $_GET['HONEYPOT'] ?? '',
 ];
 
 if ($config['ALLOW_ORIGIN'] === false) {
@@ -38,6 +39,11 @@ if ($config['REDIRECT']) {
     }
 
     header("Location: {$config['REDIRECT']}", true, 302);
+}
+
+if ($config['HONEYPOT'] && isset($_POST[$config['HONEYPOT']]) && $config['HONEYPOT'] !== '') {
+    http_response_code(400);
+    exit('Spam detected');
 }
 
 try {
@@ -73,7 +79,7 @@ echo 'OK';
 
 $data = array_diff_key($_POST, $config);
 if (!$data) {
-    // requests without (non-config) body are considered tests
+    // requests without (non-config/-honeypot) body are considered tests
     // and can be used to test or healthcheck;
     // no email will be sent
     exit;

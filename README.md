@@ -39,6 +39,8 @@ Submit a POST request (with remaining variables - see [configuration](#configura
 
 Check out [this simple example to build a form that submits forms](instructions/2-form.md) to the service we deployed in the first step.
 
+And here's [information about mitigating spam](instructions/2-spam.md) in case you were worried about that!
+
 
 ### 3. Receive email
 
@@ -61,3 +63,4 @@ Available params:
 * `REPLY_TO` *(optional, defaults to `SENDER`)*: reply-to email address
 * `SUBJECT` *(optional, defaults to "Form to email")*: email subject
 * `REDIRECT` *(optional, defaults to referrer)*: location to redirect back to after handing submission, or explicitly blank for no redirect
+* `HONEYPOT` *(optional, defaults to none)*: Name of a form field to use as honeypot to filter out unwanted (spam) submissions

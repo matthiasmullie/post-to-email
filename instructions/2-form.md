@@ -36,4 +36,6 @@ Let's break this down:
 </script>
 ```
 
-Our service is up and running. Our form is ready. We're done here; let's start receiving emails!
+Our service is up and running. Our form is ready. We're done here!
+
+Unless we want to curb spam - [read on for some quick pointers](2-spam.md)!
