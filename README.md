@@ -2,9 +2,21 @@
 
 ![Image by fullvector on Freepik](instructions/assets/logo.png)
 
+
 ## Contact forms for static websites
 
-Turn POST requests into email, enabling contact forms etc. on otherwise static websites.
+Here's a solution for those with static websites wanting a contact form, but find themselves in a situation where they can't provide a script to support it (e.g. your platform doesn't allow you to host such script, or you simply don't know how)
+
+This project provides a simple endpoint to submit your forms to, turning those form fields into an email to you.
+
+All you need is:
+
+- An SMTP server, for outgoing mails (e.g. [Gmail](https://support.google.com/mail/answer/7126229?hl=en#zippy=%2Cstep-change-smtp-other-settings-in-your-email-client) or [Outlook](https://support.microsoft.com/en-us/office/pop-imap-and-smtp-settings-8361e398-8af4-4e97-b147-6c6c4ac95353))
+- A platform that supports deploying Docker containers (e.g. [render](instructions/1-paas.md))
+- Your static website with a form, hosted anywhere
+
+For your convenience, this project is wrapped into a Docker container that can easily be deployed on any Paas - some of which will allow you to deploy this for free.
+Read on!
 
 
 ## Instructions
@@ -13,7 +25,7 @@ Turn POST requests into email, enabling contact forms etc. on otherwise static w
 
 Run the `matthiasmullie/post-to-email` Docker container in whatever [configuration](#configuration) makes sense.
 
-Below are detailed instructions to run this in a couple of different ways - pick whichever makes most sense for your usecase.
+Below are detailed instructions to run this in a couple of different ways - pick whichever makes most sense for your use-case:
 
 - [Deploy it on a PaaS](instructions/1-paas.md)
 - [Run it with Docker](instructions/1-docker.md)
