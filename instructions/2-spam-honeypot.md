@@ -6,7 +6,7 @@ Bots will parse your website until they come across a form, then fill out all av
 
 So, we could add a simple field that we expect to remain empty and visually hide it. Users will not see it (and leave it blank), but most bots will be more naive and fill it out. After all, they're usually crude enough tools to not be able to process the rest of your code in order to be able to figure out that this field is not visible: that kind of complex processing is simply not worth it for generic spam bots.
 
-So, how do we implement this?
+Now how do we implement this?
 
 
 ## 1. Add the honeypot field to your form
@@ -33,10 +33,23 @@ input[name="username"] {
 
 *Note: you could also embed these right into the html via e.g. the `style` attribute, but moving it into CSS adds one more hurdle to overcome for bots, who are less likely to go fetch and process additional resources.*
 
-*Note: you could also use e.g. `display: none`, `visibility: hidden` or `opacity: 0`, although those are more easily identifiable as "intentionally hidden" by bots.*
+
+*Note: you could also use e.g. `display: none`, `visibility: hidden` or `opacity: 0`, although those
+are more easily identifiable as "intentionally hidden" by bots. It isn't exactly rocket science to
+figure out that this element is positioned off-screen and probably not intended to be visible, so
+you could certainly consider other techniques if your overall project structure allows for it;
+e.g. leaving it on-screen, but positioning other content over it.*
 
 
 ## 3. Set environment variable `HONEYPOT`
+
+Bots will try to guess at what content your form fields expects (i.e. a field named "name" will be
+populated with a name, and that big textarea will have their spam pitch), fill them out and submit
+the form.
+
+Genuine users will do the same, but since they weren't aware of your honeypot field's existence,
+that one will remain blank.
+We can use this discrepancy to filter out unwanted submissions.
 
 Just like you've set other environment variable like `ALLOW_ORIGIN` or `DSN`, you can supply an environment variable with the name `HONEYPOT`.
 
