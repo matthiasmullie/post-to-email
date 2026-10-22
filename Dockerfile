@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.2.35-apache
 COPY . /var/www/html
 RUN apt-get update && apt-get install -y libzip-dev
 RUN docker-php-ext-install zip
