@@ -6,6 +6,8 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
 require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/basic_spam_check.php';
+require_once __DIR__ . '/turnstile.php';
 
 $config = [
     'ALLOW_ORIGIN' => getenv('ALLOW_ORIGIN'),
@@ -16,6 +18,7 @@ $config = [
     'SUBJECT' => getenv('SUBJECT') ?: $_POST['SUBJECT'] ?? $_GET['SUBJECT'] ?? 'Post to email',
     'REDIRECT' => getenv('REDIRECT') ?: $_POST['REDIRECT'] ?? $_GET['REDIRECT'] ?? $_SERVER['HTTP_REFERER'] ?? '',
     'HONEYPOT' => getenv('HONEYPOT') ?: $_POST['HONEYPOT'] ?? $_GET['HONEYPOT'] ?? '',
+    'TURNSTILE_SECRET_KEY' => getenv('TURNSTILE_SECRET_KEY'),
 ];
 
 $required = ['ALLOW_ORIGIN', 'DSN', 'SENDER', 'RECIPIENT'];
@@ -37,7 +40,19 @@ if ($config['REDIRECT']) {
     header("Location: {$config['REDIRECT']}", true, 302);
 }
 
+// spam prevention
+if ($config['TURNSTILE_SECRET_KEY'] !== false && $config['TURNSTILE_SECRET_KEY'] !== '') {
+    $turnstileToken = $_POST['cf-turnstile-response'] ?? '';
+    if (!is_string($turnstileToken) || !is_valid_turnstile_token($turnstileToken, $config['TURNSTILE_SECRET_KEY'], $_SERVER['REMOTE_ADDR'] ?? null)) {
+        http_response_code(400);
+        exit('Turnstile verification failed');
+    }
+}
 if ($config['HONEYPOT'] && isset($_POST[$config['HONEYPOT']]) && $_POST[$config['HONEYPOT']] !== '') {
+    http_response_code(400);
+    exit('Spam detected');
+}
+if (is_possible_spam($_POST)) {
     http_response_code(400);
     exit('Spam detected');
 }
@@ -73,7 +88,7 @@ try {
 // request is valid
 echo 'OK';
 
-$data = array_diff_key($_POST, $config, [$config['HONEYPOT'] => true]);
+$data = array_diff_key($_POST, $config, [$config['HONEYPOT'] => true], ['cf-turnstile-response' => true]);
 if (!$data) {
     // requests without (non-config/-honeypot) body are considered tests
     // and can be used to test or healthcheck;
