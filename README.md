@@ -64,3 +64,4 @@ Available params:
 * `SUBJECT` *(optional, defaults to "Form to email")*: email subject
 * `REDIRECT` *(optional, defaults to referrer)*: location to redirect back to after handing submission, or explicitly blank for no redirect
 * `HONEYPOT` *(optional, defaults to none)*: Name of a form field to use as [honeypot](instructions/2-spam-honeypot.md) to filter out [unwanted (spam) submissions](instructions/2-spam.md)
+* `TURNSTILE_SECRET_KEY` **[ENV only]** *(optional)*: Cloudflare Turnstile secret key. When set to a non-empty value, submissions must include a valid `cf-turnstile-response` token; the server validates it with [Cloudflare Siteverify](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/) before checking the honeypot. See [the form guide](instructions/2-form.md#optional-cloudflare-turnstile). Do not expose this secret in client-side code.

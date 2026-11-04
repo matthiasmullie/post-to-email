@@ -41,3 +41,21 @@ Let's break this down:
 Our service is up and running. Our form is ready. We're done here!
 
 Unless we want to curb spam - [read on for some quick pointers](2-spam.md)!
+
+
+## Optional: Cloudflare Turnstile
+
+If your service has `TURNSTILE_SECRET_KEY` set, every submission must include a valid Turnstile response. Register a widget in Cloudflare and add its public sitekey to the form page. Load the Turnstile script and put the widget inside the form:
+
+```html
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<form action="https://post-to-form.my-server.com/" method="post">
+    <!-- your other form fields -->
+    <div class="cf-turnstile" data-sitekey="YOUR_PUBLIC_SITE_KEY"></div>
+    <input type="submit" value="Submit" />
+</form>
+```
+
+The widget submits its token as `cf-turnstile-response`; the server validates it with Cloudflare before checking the honeypot. The sitekey is public and belongs in the form; keep `TURNSTILE_SECRET_KEY` private on the server. See [Cloudflare's server-side validation guide](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/) and [testing keys](https://developers.cloudflare.com/turnstile/troubleshooting/testing/).
+
+If the environment variable is unset or empty, Turnstile validation is disabled.

@@ -32,6 +32,7 @@ test:
 		post-to-email
 	sleep 3
 	RESPONSE_1="$$(curl -s http://localhost:8881/?SENDER=test@example.com)";\
+	RESPONSE_1B="$$(curl -s -F '0={"status":"resolved_model"}' http://localhost:8881/?SENDER=test@example.com)";\
 	RESPONSE_2="$$(curl -s http://localhost:8882/?SENDER=test@example.com)";\
 	RESPONSE_3="$$(curl -s http://localhost:8883/?SENDER=test@example.com)";\
 	RESPONSE_4A="$$(curl -s http://localhost:8884/?SENDER=test@example.com)";\
@@ -42,6 +43,7 @@ test:
 	docker stop post-to-email-4;\
 	docker rmi post-to-email;\
 	test "$$RESPONSE_1" = "OK" &&\
+	test "$$RESPONSE_1B" = "Spam detected" &&\
 	test "$$RESPONSE_2" = "Missing config for 'ALLOW_ORIGIN'" &&\
 	test "$$RESPONSE_3" = "Missing config for 'DSN'" &&\
 	test "$$RESPONSE_4A" = "OK" &&\
